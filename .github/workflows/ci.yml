@@ -53,9 +53,18 @@ jobs:
         with:
           bundler-cache: true
 
-      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install
+      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install & cache
+      - name: Restore bundler cache
+        uses: actions/cache@v4
+        with:
+          path: web/vendor/bundle
+          key: rubygems-${{ runner.os }}-${{ hashFiles('web/Gemfile.lock') }}
+          restore-keys: rubygems-${{ runner.os }}-
+
       - name: Install gems
-        run: bundle install
+        run: |
+          bundle config set --local path 'vendor/bundle'
+          bundle install
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
