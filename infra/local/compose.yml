@@ -1,0 +1,15 @@
+name: rails-tutorial
+services:
+  web:
+    container_name: web
+    build:
+      context: ../../ # Project Root Dir
+      dockerfile: ./infra/local/web/Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ../../web # Rails application Dir
+        target: /web
+    tty: true
+    command: rails server -b "0.0.0.0"
