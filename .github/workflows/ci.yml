@@ -22,7 +22,7 @@ jobs:
         with:
           bundler-cache: true
 
-      # Added by yamaga
+      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install
       - name: Install gems
         run: bundle install
 
@@ -44,7 +44,7 @@ jobs:
         with:
           bundler-cache: true
 
-      # Added by yamaga
+      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install
       - name: Install gems
         run: bundle install
 
@@ -64,7 +64,7 @@ jobs:
         with:
           bundler-cache: true
 
-      # Added by yamaga
+      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install
       - name: Install gems
         run: bundle install
 
@@ -99,16 +99,17 @@ jobs:
         with:
           bundler-cache: true
 
-      # Added by yamaga
+      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install
       - name: Install gems
         run: bundle install
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test
+      # TODO: DB のセットアップ環境後、コメントアウト解除
+      # - name: Run tests
+      #   env:
+      #     RAILS_ENV: test
+      #     # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      #     # REDIS_URL: redis://localhost:6379/0
+      #   run: bin/rails db:test:prepare test
 
   system-test:
     runs-on: ubuntu-latest
@@ -128,16 +129,17 @@ jobs:
         with:
           bundler-cache: true
 
-      # Added by yamaga
+      # setup-ruby は defaults.run.working-directory の影響を受けないため、明示的に install
       - name: Install gems
         run: bundle install
 
-      - name: Run System Tests
-        env:
-          RAILS_ENV: test
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test:system
+      # TODO: DB のセットアップ環境後、コメントアウト解除
+      # - name: Run System Tests
+      #   env:
+      #     RAILS_ENV: test
+      #     # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      #     # REDIS_URL: redis://localhost:6379/0
+      #   run: bin/rails db:test:prepare test:system
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
